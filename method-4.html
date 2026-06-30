@@ -26,17 +26,19 @@
             flex-direction: column;
         }
 
-        /* Навігаційна панель Вартових */
+        /* Навігаційна панель — центрована логіка кнопок */
         .header-nav {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Центруємо кнопку "На базу" */
             align-items: center;
             width: 100%;
             margin-bottom: 25px;
             border-bottom: 1px solid #34495e;
             padding-bottom: 15px;
+            position: relative;
         }
 
+        /* Кнопка "На базу" по центру */
         .btn-back {
             text-decoration: none;
             color: #3498db;
@@ -57,12 +59,39 @@
             box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
         }
 
+        /* Кнопка "Вийти" зліва зверху */
+        .btn-logout {
+            position: absolute;
+            left: 0;
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(231, 76, 60, 0.8);
+            border: 1px solid #c0392b;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+
         .protocol-title {
             font-size: 1.1em;
             color: #bdc3c7;
             letter-spacing: 1px;
             margin: 0;
             text-transform: uppercase;
+            position: absolute;
+            right: 0;
         }
 
         /* Головний контейнер Бази Знань */
@@ -78,7 +107,6 @@
             flex-grow: 1;
         }
 
-        /* Ефект лінії сканування */
         .slide-container::before {
             content: '';
             position: absolute;
@@ -125,7 +153,6 @@
             text-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
         }
 
-        /* Баннер правила бази */
         .stack-banner {
             background: rgba(52, 152, 219, 0.05);
             border: 1px solid #34495e;
@@ -141,11 +168,9 @@
 
         .stack-banner b { color: #3498db; font-size: 16px; letter-spacing: 1px; }
 
-        /* Сітка елементів */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: repeat(4, 1fr);
             gap: 12px;
             flex-grow: 1;
         }
@@ -168,18 +193,19 @@
         }
 
         .tile-num {
-            width: 42px;
-            height: 42px;
-            background: rgba(52, 152, 219, 0.15);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #3498db;
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 28px;
+            font-weight: 800;
+            color: rgba(52, 152, 219, 0.3);
+            width: 40px;
+            text-align: center;
+            font-family: 'Urbanist', sans-serif;
             flex-shrink: 0;
-            border: 1px solid rgba(52, 152, 219, 0.3);
+            transition: 0.3s all ease;
+        }
+
+        .tile:hover .tile-num {
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
         }
 
         .tile-content h3 {
@@ -196,7 +222,6 @@
             line-height: 1.4;
         }
 
-        /* Нижня панель */
         .footer {
             margin-top: 25px;
             display: grid;
@@ -204,7 +229,6 @@
             gap: 20px;
         }
 
-        /* Блок кричущої помилки/безпеки */
         .warning-box {
             border: 1px solid #e74c3c;
             border-left: 5px solid #e74c3c;
@@ -213,7 +237,7 @@
             font-size: 13px;
             color: #f1c40f;
             border-radius: 4px;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         .warning-box strong { 
@@ -225,7 +249,6 @@
             text-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
         }
 
-        /* Порада Майстра Тесли */
         .master-tip {
             background: rgba(52, 152, 219, 0.15);
             border: 1px solid #3498db;
@@ -246,13 +269,23 @@
             text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
         }
 
+        @media (max-width: 768px) {
+            .header-nav { flex-direction: column; gap: 10px; }
+            .btn-logout { position: static; width: 100%; text-align: center; }
+            .protocol-title { position: static; text-align: center; }
+        }
     </style>
 </head>
 <body>
 
     <div class="header-nav">
+        <button class="btn-logout" onclick="logoutProtokol()">
+            <i class="fa-solid fa-right-from-bracket"></i> Вийти
+        </button>
+
         <a href="base.html" class="btn-back">← На базу</a>
-        <span class="protocol-title">ПРОТОКОЛ 004 | МЕТОДИЧНИЙ КУРС</span>
+
+       <span class="protocol-title">ПРОТОКОЛ 004 | МЕТОДИЧНИЙ КУРС</span>
     </div>
 
     <div class="slide-container">
