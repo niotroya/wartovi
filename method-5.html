@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('image_2.png'); /* Наш фірмовий фон */
+            background-image: url('image_2.png'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -26,17 +26,19 @@
             flex-direction: column;
         }
 
-        /* Навігаційна панель Вартових */
+        /* Навігаційна панель */
         .header-nav {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Центруємо кнопку "На базу" */
             align-items: center;
             width: 100%;
             margin-bottom: 25px;
             border-bottom: 1px solid #34495e;
             padding-bottom: 15px;
+            position: relative; 
         }
 
+        /* Кнопка "На базу" по центру */
         .btn-back {
             text-decoration: none;
             color: #3498db;
@@ -57,15 +59,39 @@
             box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
         }
 
+        /* Кнопка "Вийти" зліва зверху */
+        .btn-logout {
+            position: absolute;
+            left: 0;
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(231, 76, 60, 0.8);
+            border: 1px solid #c0392b;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+
+        /* Назва протоколу справа */
         .protocol-title {
             font-size: 1.1em;
             color: #bdc3c7;
             letter-spacing: 1px;
             margin: 0;
             text-transform: uppercase;
+            position: absolute;
+            right: 0;
         }
 
-        /* Головний контейнер Бази Знань */
         .slide-container {
             background-color: rgba(0, 0, 0, 0.75);
             border: 1px solid #34495e;
@@ -78,7 +104,6 @@
             flex-grow: 1;
         }
 
-        /* Ефект лінії сканування */
         .slide-container::before {
             content: '';
             position: absolute;
@@ -125,130 +150,100 @@
             text-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
         }
 
-        .content-area {
+        .stack-banner {
+            background: rgba(52, 152, 219, 0.05);
+            border: 1px solid #34495e;
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .stack-banner b { color: #3498db; font-size: 16px; letter-spacing: 1px; }
+
+        .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 12px;
             flex-grow: 1;
         }
 
-        /* ЛІВА КОЛОНКА */
-        .types-column {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .section-header {
-            background: rgba(52, 152, 219, 0.1);
-            border-left: 4px solid #3498db;
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .type-card {
+        .tile {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid #34495e;
             border-radius: 4px;
-            padding: 15px;
-            transition: 0.3s all ease;
-        }
-
-        .type-card:hover {
-            border-color: #3498db;
-            background-color: rgba(52, 152, 219, 0.05);
-        }
-
-        .type-title {
+            padding: 15px 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #34495e;
-        }
-
-        .type-title h3 { color: #3498db; font-size: 16px; text-transform: uppercase; }
-        
-        .voltage-badge { 
-            background: rgba(52, 152, 219, 0.15); 
-            color: #fff; 
-            padding: 3px 8px; 
-            border-radius: 4px; 
-            font-family: monospace; 
-            font-size: 13px;
-            border: 1px solid rgba(52, 152, 219, 0.3);
-        }
-        
-        .type-desc { font-size: 13px; color: #bdc3c7; line-height: 1.4; margin-bottom: 10px; }
-        
-        .specs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            font-size: 12.5px;
-        }
-
-        .spec-item { display: flex; align-items: center; gap: 8px; color: #ecf0f1; }
-        .spec-item i { color: #3498db; }
-
-        /* ПРАВА КОЛОНКА */
-        .rules-column {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .rule-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid #34495e;
-            border-radius: 4px;
-            padding: 15px;
-            display: flex;
-            gap: 15px;
+            gap: 18px;
             transition: 0.3s all ease;
         }
 
-        .rule-card:hover {
-            border-color: #e74c3c;
-            background: rgba(231, 76, 60, 0.03);
+        .tile:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.08);
+            transform: translateY(-2px);
         }
 
-        .rule-card.safe:hover {
-            border-color: #2ecc71;
-            background: rgba(46, 204, 113, 0.03);
-        }
-
-        .rule-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(231, 76, 60, 0.15);
-            color: #e74c3c;
+        .tile-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(52, 152, 219, 0.15);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
+            color: #3498db;
+            font-size: 18px;
             flex-shrink: 0;
-            border: 1px solid rgba(231, 76, 60, 0.3);
+            border: 1px solid rgba(52, 152, 219, 0.3);
         }
 
-        .rule-card.safe .rule-icon { 
-            background: rgba(46, 204, 113, 0.15); 
-            color: #2ecc71; 
-            border-color: rgba(46, 204, 113, 0.3);
+        .tile-content h3 {
+            font-size: 15px;
+            color: #3498db;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
         }
 
-        .rule-content h4 { color: #fff; font-size: 14px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .rule-content p { color: #bdc3c7; font-size: 13px; line-height: 1.4; }
-        .rule-content b { color: #fff; }
+        .tile-content p {
+            font-size: 13.5px;
+            color: #bdc3c7;
+            line-height: 1.4;
+        }
 
-        /* ФУТЕР - ПОРАДА ТЕСЛИ */
+        .footer {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 20px;
+        }
+
+        .warning-box {
+            border: 1px solid #e74c3c;
+            border-left: 5px solid #e74c3c;
+            background: rgba(231, 76, 60, 0.08);
+            padding: 15px;
+            font-size: 13px;
+            color: #f1c40f;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+
+        .warning-box strong { 
+            color: #e74c3c; 
+            display: block; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+        }
+
         .master-tip {
             background: rgba(52, 152, 219, 0.15);
             border: 1px solid #3498db;
@@ -261,14 +256,18 @@
             align-items: center;
             gap: 15px;
             line-height: 1.4;
-            margin-top: 20px;
         }
 
         .master-tip i { 
             font-size: 24px; 
             color: #3498db;
             text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
-            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header-nav { flex-direction: column; gap: 10px; }
+            .btn-logout { position: static; width: 100%; text-align: center; }
+            .protocol-title { position: static; text-align: center; }
         }
 
     </style>
@@ -276,7 +275,12 @@
 <body>
 
     <div class="header-nav">
+        <button class="btn-logout" onclick="logoutProtokol()">
+            <i class="fa-solid fa-right-from-bracket"></i> Вийти
+        </button>
+        
         <a href="base.html" class="btn-back">← На базу</a>
+
         <span class="protocol-title">ПРОТОКОЛ 005 | МЕТОДИЧНИЙ КУРС</span>
     </div>
 
