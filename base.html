@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вартові Галактики | Секретна База Знань</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Сучасний, чистий шрифт */
+            background-image: url('image_2.png'); /* Підключаємо наш фон */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecf0f1; /* Світлий колір тексту */
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Кнопка виходу у стилі Вартових */
+        .btn-logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 14px;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: 0.3s all ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            border-color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+        }
+
+        h1 {
+            color: #3498db; /* Синій акцент */
+            text-transform: uppercase; /* Всі великі літери */
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.5); /* Ефект світіння */
+            margin-top: 20px; /* Відступ від кнопки виходу */
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #bdc3c7;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Адаптивна сітка */
+            gap: 20px;
+            width: 100%;
+        }
+
+        .menu-item {
+            background-color: rgba(0, 0, 0, 0.6); /* Напівпрозорий темний фон */
+            border: 1px solid #34495e; /* Тема "Щ.И.Т." */
+            border-radius: 4px;
+            padding: 25px;
+            text-decoration: none;
+            color: #ecf0f1;
+            transition: 0.3s all ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1); /* Легке синє світіння */
+            transform: translateY(-3px); /* Підняття */
+        }
+
+        .menu-item-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #3498db;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .menu-item-desc {
+            font-size: 0.9em;
+            color: #bdc3c7;
+        }
+
+        /* Ефект "сканування" при наведенні */
+        .menu-item::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: #3498db;
+            transform: scaleX(0);
+            transition: 0.3s transform ease;
+        }
+
+        .menu-item:hover::after {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Кнопка розірвання протоколу допуску -->
+    <button class="btn-logout" onclick="logoutProtokol()">
+        <i class="fa-solid fa-right-from-bracket"></i> Вийти
+    </button>
+
+    <h1>Вартові Галактики</h1>
+    <p class="subtitle">ДОСТУП ЗАБЕЗПЕЧЕНО. ОБЕРІТЬ ВІДПОВІДНИЙ ПРОТОКОЛ.</p>
+
+    <div class="menu">
+        <a href="method-1.html" class="menu-item">
+            <span class="menu-item-title">Протокол 001</span>
+            <span class="menu-item-desc">Технічна інструкція 1: Назва</span>
+        </a>
+        <a href="method-2.html" class="menu-item">
+            <span class="menu-item-title">Протокол 002</span>
+            <span class="menu-item-desc">Технічна інструкція 2: Назва</span>
+        </a>
+        <a href="method-3.html" class="menu-item">
+            <span class="menu-item-title">Протокол 003</span>
+            <span class="menu-item-desc">Технічна інструкція 3: Назва</span>
+        </a>
+        <a href="method-4.html" class="menu-item">
+            <span class="menu-item-title">Протокол 004</span>
+            <span class="menu-item-desc">Технічна інструкція 4: Назва</span>
+        </a>
+        <a href="method-5.html" class="menu-item">
+            <span class="menu-item-title">Протокол 005</span>
+            <span class="menu-item-desc">Технічна інструкція 5: Назва</span>
+        </a>
+        <a href="method-6.html" class="menu-item">
+            <span class="menu-item-title">Протокол 006</span>
+            <span class="menu-item-desc">Технічна інструкція 6: Назва</span>
+        </a>
+
+    </div>
+
+    <script>
+        function logoutProtokol() {
+            // Замінюємо поточну адресу в історії на сторінку авторизації
+            window.location.replace("index.html");
+        }
+    </script>
+
+</body>
+</html>

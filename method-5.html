@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вартові Галактики | Протокол 005</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('image_2.png'); /* Наш фірмовий фон */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecf0f1;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Навігаційна панель Вартових */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: 0.3s all ease;
+        }
+
+        .btn-back:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .protocol-title {
+            font-size: 1.1em;
+            color: #bdc3c7;
+            letter-spacing: 1px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* Головний контейнер Бази Знань */
+        .slide-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* Ефект лінії сканування */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: #3498db;
+            box-shadow: 0 0 8px #3498db;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-area i { 
+            color: #3498db; 
+            font-size: 26px;
+            text-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
+        }
+        
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .poster-title {
+            color: #3498db;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+        }
+
+        .content-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        /* ЛІВА КОЛОНКА */
+        .types-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .section-header {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .type-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 15px;
+            transition: 0.3s all ease;
+        }
+
+        .type-card:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .type-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .type-title h3 { color: #3498db; font-size: 16px; text-transform: uppercase; }
+        
+        .voltage-badge { 
+            background: rgba(52, 152, 219, 0.15); 
+            color: #fff; 
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            font-size: 13px;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .type-desc { font-size: 13px; color: #bdc3c7; line-height: 1.4; margin-bottom: 10px; }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 12.5px;
+        }
+
+        .spec-item { display: flex; align-items: center; gap: 8px; color: #ecf0f1; }
+        .spec-item i { color: #3498db; }
+
+        /* ПРАВА КОЛОНКА */
+        .rules-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .rule-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            transition: 0.3s all ease;
+        }
+
+        .rule-card:hover {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.03);
+        }
+
+        .rule-card.safe:hover {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.03);
+        }
+
+        .rule-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .rule-card.safe .rule-icon { 
+            background: rgba(46, 204, 113, 0.15); 
+            color: #2ecc71; 
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .rule-content h4 { color: #fff; font-size: 14px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .rule-content p { color: #bdc3c7; font-size: 13px; line-height: 1.4; }
+        .rule-content b { color: #fff; }
+
+        /* ФУТЕР - ПОРАДА ТЕСЛИ */
+        .master-tip {
+            background: rgba(52, 152, 219, 0.15);
+            border: 1px solid #3498db;
+            color: #ecf0f1;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            line-height: 1.4;
+            margin-top: 20px;
+        }
+
+        .master-tip i { 
+            font-size: 24px; 
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+            flex-shrink: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="base.html" class="btn-back">← На базу</a>
+        <span class="protocol-title">ПРОТОКОЛ 005 | МЕТОДИЧНИЙ КУРС</span>
+    </div>
+
+    <div class="slide-container">
+        <div class="header">
+            <div class="brand-logo-area">
+                <i class="fa-solid fa-car-battery"></i>
+                <span class="brand-name">Майстер Тесла</span>
+            </div>
+            <div class="poster-title">Методичка №5: Акумулятори та Безпека</div>
+        </div>
+
+        <div class="content-area">
+            <div class="types-column">
+                <div class="section-header">Типи акумуляторів для FPV</div>
+                
+                <div class="type-card">
+                    <div class="type-title">
+                        <h3>Li-Po (Літій-полімерні)</h3>
+                        <div class="voltage-badge">3.6V - 4.2V на банку</div>
+                    </div>
+                    <p class="type-desc">Найпопулярніші для динамічних польотів та фрістайлу завдяки величезній струмовіддачі (C-rating). Швидко віддають енергію, але чутливі до ударів.</p>
+                    <div class="specs-grid">
+                        <div class="spec-item"><i class="fa-solid fa-bolt"></i> Висока струмовіддача</div>
+                        <div class="spec-item"><i class="fa-solid fa-weight-hanging"></i> Легка вага</div>
+                    </div>
+                </div>
+
+                <div class="type-card">
+                    <div class="type-title">
+                        <h3>Li-ion (Літій-іонні)</h3>
+                        <div class="voltage-badge">3.0V - 4.1V на банку</div>
+                    </div>
+                    <p class="type-desc">Ідеальні для дальніх польотів (Long Range) та розвідки. Мають значно більшу ємність, ніж Li-Po, але нижчу струмовіддачу. Збираються з циліндричних елементів (наприклад 18650 або 21700).</p>
+                    <div class="specs-grid">
+                        <div class="spec-item"><i class="fa-solid fa-stopwatch"></i> Довгий час польоту</div>
+                        <div class="spec-item"><i class="fa-solid fa-shield-halved"></i> Стійкіші до ударів</div>
+                    </div>
+                </div>
+
+                <div class="type-card">
+                    <div class="type-title">
+                        <h3>LiHV (High Voltage Li-Po)</h3>
+                        <div class="voltage-badge">3.6V - 4.35V на банку</div>
+                    </div>
+                    <p class="type-desc">Різновид Li-Po, які можна заряджати до вищої напруги (4.35V). Забезпечують більше потужності на старті, але мають коротший загальний термін служби.</p>
+                    <div class="specs-grid">
+                        <div class="spec-item"><i class="fa-solid fa-gauge-high"></i> Максимальна тяга</div>
+                        <div class="spec-item"><i class="fa-solid fa-arrow-trend-down"></i> Швидше деградують</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-column">
+                <div class="section-header" style="background: rgba(231, 76, 60, 0.1); border-color: #e74c3c;">Критичні правила безпеки</div>
+                
+                <div class="rule-card">
+                    <div class="rule-icon"><i class="fa-solid fa-fire"></i></div>
+                    <div class="rule-content">
+                        <h4>Ніколи не перерозряджайте!</h4>
+                        <p>Для Li-Po критична межа — <b>3.2V</b> на банку. Падіння нижче цього рівня викликає незворотні хімічні реакції. Батарея "надується" і може спалахнути.</p>
+                    </div>
+                </div>
+
+                <div class="rule-card safe">
+                    <div class="rule-icon"><i class="fa-solid fa-box-archive"></i></div>
+                    <div class="rule-content">
+                        <h4>Режим зберігання (Storage)</h4>
+                        <p>Якщо батарея не використовується більше 3-х днів, її ОБОВ'ЯЗКОВО треба перевести в режим Storage (<b>3.8V - 3.85V</b> на банку). Зберігання повністю зарядженої батареї вбиває її.</p>
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-icon"><i class="fa-solid fa-house-fire"></i></div>
+                    <div class="rule-content">
+                        <h4>Заряджання під наглядом</h4>
+                        <p>Заряджайте батареї ТІЛЬКИ в спеціальних вогнетривких пакетах (LiPo Safe Bag). Ніколи не залишайте процес зарядки без нагляду або на ніч!</p>
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-icon"><i class="fa-solid fa-hammer"></i></div>
+                    <div class="rule-content">
+                        <h4>Физичні пошкодження</h4>
+                        <p>Якщо після падіння дрона батарея деформувалася, пробита або відчувається солодкуватий запах (витік літію) — НЕГАЙНО від'єднайте її та утилізуйте. Це бомба уповільненої дії.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="master-tip">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>"Курсанти, запам'ятайте: Акумулятор — це не просто батарейка, це хімічний реактор. Поважайте його обмеження, літайте з телеметрією напруги на екрані (OSD) і ніколи не ігноруйте режим Storage!" — Ваш Майстер Тесла.</span>
+        </div>
+    </div>
+
+</body>
+</html>

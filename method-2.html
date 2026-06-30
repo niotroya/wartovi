@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вартові Галактики | Протокол 002</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('image_2.png'); /* Наш фірмовий фон */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecf0f1;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Навігаційна панель Вартових */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: 0.3s all ease;
+        }
+
+        .btn-back:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .protocol-title {
+            font-size: 1.1em;
+            color: #bdc3c7;
+            letter-spacing: 1px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* Головний контейнер Бази Знань */
+        .slide-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* Ефект лінії сканування */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: #3498db;
+            box-shadow: 0 0 8px #3498db;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-area i { 
+            color: #3498db; 
+            font-size: 26px;
+            text-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
+        }
+        
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .poster-title {
+            color: #3498db;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Баннер правила бази */
+        .stack-banner {
+            background: rgba(52, 152, 219, 0.05);
+            border: 1px solid #34495e;
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .stack-banner b { color: #3498db; font-size: 16px; letter-spacing: 1px; }
+
+        /* Сітка елементів (2 колонки) */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        .tile {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: 0.3s all ease;
+        }
+
+        .tile:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .tile-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(52, 152, 219, 0.15);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #3498db;
+            font-size: 18px;
+            flex-shrink: 0;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .tile-content h3 {
+            font-size: 15px;
+            color: #3498db;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .tile-content p {
+            font-size: 13.5px;
+            color: #bdc3c7;
+            line-height: 1.4;
+        }
+
+        .tile-content b {
+            color: #fff;
+        }
+
+        /* Нижня панель */
+        .footer {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 20px;
+        }
+
+        /* Блок критично важливих правил */
+        .warning-box {
+            border: 1px solid #e74c3c;
+            border-left: 5px solid #e74c3c;
+            background: rgba(231, 76, 60, 0.08);
+            padding: 15px;
+            font-size: 13px;
+            color: #f1c40f;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+
+        .warning-box strong { 
+            color: #e74c3c; 
+            display: block; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Порада Майстра Тесли */
+        .master-tip {
+            background: rgba(52, 152, 219, 0.15);
+            border: 1px solid #3498db;
+            color: #ecf0f1;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            line-height: 1.4;
+        }
+
+        .master-tip i { 
+            font-size: 24px; 
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="base.html" class="btn-back">← На базу</a>
+        <span class="protocol-title">ПРОТОКОЛ 002 | МЕТОДИЧНИЙ КУРС</span>
+    </div>
+
+    <div class="slide-container">
+        <div class="header">
+            <div class="brand-logo-area">
+                <i class="fa-solid fa-microchip"></i>
+                <span class="brand-name">Майстер Тесла</span>
+            </div>
+            <div class="poster-title">Протокол 002: Базові компоненти FPV-дрона</div>
+        </div>
+
+        <div class="stack-banner">
+            <i class="fa-solid fa-layer-group" style="color: #3498db;"></i>
+            <span><b>АНАТОМІЯ ПЛАТФОРМИ:</b> Кожен елемент системи повинен працювати синхронно. Розуміння матчастини рятує техніку від крашу.</span>
+        </div>
+
+        <div class="main-grid">
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="tile-content">
+                    <h3>Польотний контролер (FC)</h3>
+                    <p>«Мозок» дрона. Обробляє сигнали від пульта керування за допомогою вбудованого <b>гіроскопа</b> та керує поведінкою апарата в повітрі.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                <div class="tile-content">
+                    <h3>Регулятор обертів (ESC)</h3>
+                    <p>Керує потужністю та швидкістю обертання моторів. Перетворює постійний струм від акумулятора на трифазний для двигунів.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-rotate"></i></div>
+                <div class="tile-content">
+                    <h3>Безколекторні трифазні двигуни</h3>
+                    <p>Створюють тягу. Потребують синхронного налаштування напрямку обертання відповідно до обраної схеми пропелерів.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+                <div class="tile-content">
+                    <h3>Відеопередавач (VTx)</h3>
+                    <p>Транслює сигнал з камери на окуляри пілота. Зазвичай використовує частоту <b>5.8 ГГц</b> та потребує антени з <b>круговою</b> поляризацією.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-video"></i></div>
+                <div class="tile-content">
+                    <h3>FPV-камера</h3>
+                    <p>«Очі» пілота. Забезпечує миттєву передачу відеосигналу з мінімальною затримкою для точного керування в реальному часі.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-battery-three-quarters"></i></div>
+                <div class="tile-content">
+                    <h3>Силовий акумулятор (Li-Po / Li-Ion)</h3>
+                    <p>Джерело живлення. Кількість послідовно спаяних банок позначається <b>(S)</b> — зазвичай 6S, а паралельно припаяних — <b>2P</b> або <b>3P</b>.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-signal"></i></div>
+                <div class="tile-content">
+                    <h3>Приймач керування (Rx)</h3>
+                    <p>Отримує сигнал від пульта. Використовує <b>лінійну</b> (горизонтальну або вертикальну) поляризацію антени протоколу <b>ELRS</b> або TBS Crossfire.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-cube"></i></div>
+                <div class="tile-content">
+                    <h3>Карбонова рама</h3>
+                    <p>Міцний «скелет» з вуглеволокна. Утримує всі компоненти на своїх місцях та захищає електроніку при жорстких падіннях.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="warning-box">
+                <strong>КРИТИЧНО ВАЖЛИВО:</strong>
+                1. Завжди перевіряйте обертання моторів та напрямок встановлення пропелерів.<br>
+                2. НІКОЛИ не вмикайте дрон без під'єднаної антени відеопередавача (VTx) — він миттєво згорить від перегріву!
+            </div>
+            <div class="master-tip">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>"Пам'ятайте, що в налаштуваннях конфігуратора є спеціальний пункт (галочка) напрямку двигунів. Якщо там помилитися, ваш дрон при спробі зліту просто підстрибне, перевернеться і пошкодить пропелери." — Ваш Майстер Тесла.</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

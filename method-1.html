@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вартові Галактики | Протокол 001</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('image_2.png'); /* Переконайтеся, що картинка фону лежить в тій же папці */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecf0f1;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: 0.3s all ease;
+        }
+
+        .btn-back:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .protocol-title {
+            font-size: 1.1em;
+            color: #bdc3c7;
+            letter-spacing: 1px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .slide-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: #3498db;
+            box-shadow: 0 0 8px #3498db;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-area i { 
+            color: #3498db; 
+            font-size: 26px;
+            text-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
+        }
+        
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .poster-title {
+            color: #3498db;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+        }
+
+        .stack-banner {
+            background: rgba(52, 152, 219, 0.05);
+            border: 1px solid #34495e;
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .stack-banner b { color: #3498db; font-size: 16px; letter-spacing: 1px; }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        .tile {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: 0.3s all ease;
+        }
+
+        .tile:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .tile-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(52, 152, 219, 0.15);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #3498db;
+            font-size: 18px;
+            flex-shrink: 0;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .tile-content h3 {
+            font-size: 15px;
+            color: #3498db;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .tile-content p {
+            font-size: 13.5px;
+            color: #bdc3c7;
+            line-height: 1.4;
+        }
+
+        .footer {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 20px;
+        }
+
+        .warning-box {
+            border: 1px solid #e74c3c;
+            border-left: 5px solid #e74c3c;
+            background: rgba(231, 76, 60, 0.08);
+            padding: 15px;
+            font-size: 13px;
+            color: #f1c40f;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+
+        .warning-box strong { 
+            color: #e74c3c; 
+            display: block; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+        }
+
+        .master-tip {
+            background: rgba(52, 152, 219, 0.15);
+            border: 1px solid #3498db;
+            color: #ecf0f1;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            line-height: 1.4;
+        }
+
+        .master-tip i { 
+            font-size: 24px; 
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+        }
+
+        /* Кнопка виходу у стилі Вартових */
+        .btn-logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 14px;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: 0.3s all ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            border-color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="base.html" class="btn-back">← На базу
+
+ 
+
+</a>
+        <span class="protocol-title">ПРОТОКОЛ 001 | МЕТОДИЧНИЙ КУРС
+
+
+</span>
+    </div>
+
+    <div class="slide-container">
+        <div class="header">
+            <div class="brand-logo-area">
+                <i class="fa-solid fa-toolbox"></i>
+                <span class="brand-name">Майстер Тесла</span>
+            </div>
+            <div class="poster-title">Протокол 001: Інструменти та матеріали</div>
+        </div>
+
+        <div class="stack-banner">
+            <i class="fa-solid fa-gem" style="color: #3498db;"></i>
+            <span><b>ПРАВИЛО БАЗИ:</b> Якісний інструмент — це 50% успіху. Ніколи не економте на флюсі та припої!</span>
+        </div>
+
+        <div class="main-grid">
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-fire"></i></div>
+                <div class="tile-content">
+                    <h3>1. Паяльник (TS21 / TS101)</h3>
+                    <p>Портативний, з точним регулюванням температури. Маст-хев для роботи з дрібними контактами.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-scissors"></i></div>
+                <div class="tile-content">
+                    <h3>2. Кусачки (Бокорізи)</h3>
+                    <p>Для рівного та точного обрізання дротів і пластикових стяжок у важкодоступних місцях.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-pen"></i></div>
+                <div class="tile-content">
+                    <h3>3. Пінцет (Прямий та вигнутий)</h3>
+                    <p>Необхідний для надійного утримання гарячих дротів та дрібних SMD-компонентів під час пайки.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-screwdriver"></i></div>
+                <div class="tile-content">
+                    <h3>4. Гексагональні викрутки (шестигранні)</h3>
+                    <p>Основні розміри шестигранників (H1.5, H2.0, H2.5) для закручування гвинтів рами та моторів.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="tile-content">
+                    <h3>5. Знімач ізоляції (Стрипер)</h3>
+                    <p>Для швидкого та безпечного зачищення силіконових дротів без пошкодження внутрішніх жил.</p>
+                </div>
+            </div>
+            
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div class="tile-content">
+                    <h3>6. Припій (з флюсом)</h3>
+                    <p>Свинцево-вмісний (наприклад, ПОС-61). Набагато краще плавиться і тримає вібрацію, ніж безсвинцевий.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-flask"></i></div>
+                <div class="tile-content">
+                    <h3>7. Гель-флюс для електроніки</h3>
+                    <p>Якісний безвідмивний флюс. Забезпечує ідеальне розтікання припою та блискучу краплю.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-compress"></i></div>
+                <div class="tile-content">
+                    <h3>8. Термоусадкові трубки</h3>
+                    <p>Різних діаметрів. Використовуються для надійної ізоляції всіх місць з'єднання та спайки.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-tape"></i></div>
+                <div class="tile-content">
+                    <h3>9. Нейлонові стяжки</h3>
+                    <p>Також використовується для фіксації кабелів, маунтів, передавачів та приймачів.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-ruler"></i></div>
+                <div class="tile-content">
+                    <h3>10. Надфілі</h3>
+                    <p>Інструмент для обов'язкового затуплення гострих країв карбонової рами перед збіркою.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="warning-box">
+                <strong>КРИТИЧНА ПОМИЛКА:</strong>
+                НІКОЛИ не використовуйте активний (кислотний) паяльний жир або кислоту! Вона неминуче роз'їсть мідні контакти та знищить плату вашого дрона за кілька тижнів.
+            </div>
+            <div class="master-tip">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>"Карбон чудово проводить струм! Завжди обробляйте краї рами надфілем. Якщо гострий карбон переріже ізоляцію дрота живлення під час вібрації — дрон спалахне в повітрі." — Ваш Майстер Тесла.</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        function logoutProtokol() {
+            // Замінюємо поточну адресу в історії на сторінку авторизації
+            window.location.replace("index.html");
+        }
+    </script>
+</body>
+</html>

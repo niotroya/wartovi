@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вартові Галактики | Протокол 006</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('image_2.png'); /* Наш єдиний фірмовий фон */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecf0f1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Кнопка повернення до бази знань */
+        .btn-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(52, 152, 219, 0.8);
+            border: 1px solid #2980b9;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #2980b9;
+        }
+
+        h1 {
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 60px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0,0,0,0.7);
+            color: #3498db;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #bdc3c7;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(0,0,0,0.7);
+        }
+
+        /* Єдина лаконічна картка для тексту протоколу */
+        .content-card {
+            background-color: rgba(0, 0, 0, 0.75);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 35px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #5dade2;
+            text-transform: uppercase;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #ecf0f1;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #bfc9ca;
+        }
+
+        strong {
+            color: #fff;
+        }
+
+        .warning-text {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        /* Адаптивність */
+        @media (max-width: 600px) {
+            h1 { font-size: 28px; margin-top: 80px; }
+            .content-card { padding: 20px; }
+            .btn-back { width: calc(100% - 40px); text-align: center; position: static; margin-bottom: 20px; }
+        }
+
+        .btn-logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 14px;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: 0.3s all ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            border-color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Кнопка розірвання протоколу допуску -->
+    <button class="btn-logout" onclick="logoutProtokol()">
+        <i class="fa-solid fa-right-from-bracket"></i> Вийти
+    </button>
+
+    <a href="base.html" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i> До бази
+    </a>
+
+    <h1>Протокол 006</h1>
+    <p class="subtitle">Кіберщит Екіпажу (Основи Інформаційної Безпеки)</p>
+
+    <div class="content-card">
+
+        <h2>1. Режим «Невидимка» (Геолокація)</h2>
+        <p>Твій телефон постійно кричить у космос, де саме ти перебуваєш. Для ворожих радарів це найкраща підказка для наведення артилерії та фіксації позицій.</p>
+        <ul>
+            <li><strong>Залізне правило:</strong> Функція «Геолокація» (Місцезнаходження) на телефоні має бути <strong>завжди вимкнена</strong>.</li>
+            <li><strong>Важливий нюанс:</strong> Вмикай її лише тоді, коли треба прокласти маршрут на мапі, і одразу вимикай після цього. Пам'ятай: коли ти робиш фотографію, телефон непомітно вшиває в неї точні координати знімка.</li>
+        </ul>
+
+        <h2>2. Ключ від шлюзу (Паролі та СМС)</h2>
+        <p>Якщо твій пароль — це дата народження, ім'я чи банальні цифри на кшталт "123456", то твої «цифрові двері» зачинені на звичайну паперову ниточку.</p>
+        <ul>
+            <li><strong>Пароль:</strong> Створи ключ, якого немає в жодному словнику. Поєднуй великі літери, спецсимволи та цифри (наприклад, <code>Subaru%1985#</code>).</li>
+            <li><strong>Контур захисту:</strong> Обов'язково увімкни двофакторну автентифікацію (вхід через пароль + код на телефоні). Нікому й ніколи не кажи коди з СМС — їх повинен знати тільки ти.</li>
+        </ul>
+
+        <h2>3. Чужі «подарунки» (Флешки та диски)</h2>
+        <p>Знайдена на дорозі або раптово «подарована» флешка чи SD-карта — це не везіння, а класичний цифровий троянський кінь, націлений на злив секретних даних.</p>
+        <ul>
+            <li><strong>Дія:</strong> Категорично заборонено вставляти незнайомі накопичувачі у робочі комп'ютери, ноутбуки чи термінали.</li>
+            <li><strong>Загроза:</strong> Там може бути шпигунський скрипт, який за одну секунду скопіює всі твої паролі, карти чи прошивки двигунів і непомітно передасть їх ворогу.</li>
+        </ul>
+
+        <h2>4. Цифрова риболовля (Посилання та файли)</h2>
+        <p>Хакери рідко ламають пристрої складною силою. Найчастіше вони змушують тебе зробити це самостійно за допомогою маніпуляцій та підроблених повідомлень (фішинг).</p>
+        <ul>
+            <li><strong>Перевірка:</strong> Прийшло повідомлення про виграш, голосування чи підозрілий архів <code>Dovidka.zip</code> навіть від знайомого побратима? <strong>Не тицяй пальцем!</strong></li>
+            <li><strong>Правило безпеки:</strong> Спершу подзвони цій людині звичайним голосом і перепитай, чи справді вона це надсилала. У більшості випадків виявиться, що її акаунт просто зламали.</li>
+        </ul>
+
+        <h2>5. Повітряні пастки (Wi-Fi та Bluetooth)</h2>
+        <p>Безкоштовний інтернет у кафе, на заправках чи в парках без пароля — це пряма загроза. Ворог може перехоплювати та аналізувати весь незахищений трафік.</p>
+        <ul>
+            <li><strong>Зв'язок:</strong> Користуйся виключно своїм мобільним інтернетом від сім-картки.</li>
+            <li><strong>Обмеження:</strong> Якщо підключення до чужого Wi-Fi критично необхідне — ніколи не заходь у цей момент у банкінги, державні додатки й не вводь паролі. Bluetooth також тримай вимкненим, коли не використовуєш навушники.</li>
+        </ul>
+
+        <h2>6. Протокол "Абсолютна Тиша"</h2>
+        <p>Твоя мовчанка — це життя підрозділу. Ворог полює на інформацію не лише через віруси, а й через твій язик, розмови та соціальні мережі.</p>
+        <ul>
+            <li><strong>Мережева дієта:</strong> Заборонено викладати в мережу (TikTok, Instagram, Facebook), чим саме ти займаєшся, яку техніку обслуговуєш, які прошивки використовуєш та де перебуваєш. Навіть "невинне" фото на тлі специфічного рельєфу чи будівлі розшифровується ворожою розвідкою за кілька хвилин.</li>
+            <li><strong>Агентурні "медові пастки":</strong> Ворог активно використовує красивих, нав'язливо приязних жіночих персонажів у соцмережах та чатах знайомств. Вони майстерно входять в довіру до військових чоловіків. Професійний розвідник під маскою закоханої дівчини буде випитувати нібито "дрібниці": <em>"А де ти зараз?", "А які звуки на фоні?", "З якими пташками чи двигунами працюєш?"</em>.</li>
+            <li><span class="warning-text">Головне правило Вартового:</span> Будь-яка нова знайома в інтернеті, яка цікавиться твоєю службою, роботою чи локацією — це потенційний агент ворога. Тримай інфо-щит закритим. Секрети розповідай тільки своїм трифазним двигунам — вони точно вміють мовчати!</li>
+        </ul>
+
+    </div>
+
+</body>
+</html>

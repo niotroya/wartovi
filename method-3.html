@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вартові Галактики | Протокол 003</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('image_2.png'); /* Наш фірмовий фон */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecf0f1;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Навігаційна панель Вартових */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: 0.3s all ease;
+        }
+
+        .btn-back:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .protocol-title {
+            font-size: 1.1em;
+            color: #bdc3c7;
+            letter-spacing: 1px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* Головний контейнер Бази Знань */
+        .slide-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* Ефект лінії сканування */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: #3498db;
+            box-shadow: 0 0 8px #3498db;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-area i { 
+            color: #3498db; 
+            font-size: 26px;
+            text-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
+        }
+        
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .poster-title {
+            color: #3498db;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Баннер правила бази */
+        .stack-banner {
+            background: rgba(52, 152, 219, 0.05);
+            border: 1px solid #34495e;
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .stack-banner b { color: #3498db; font-size: 16px; letter-spacing: 1px; }
+
+        /* Сітка елементів */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(4, 1fr);
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        .tile {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: 0.3s all ease;
+        }
+
+        .tile:hover {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .tile-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(52, 152, 219, 0.15);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #3498db;
+            font-size: 18px;
+            flex-shrink: 0;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .tile-content h3 {
+            font-size: 15px;
+            color: #3498db;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .tile-content p {
+            font-size: 13.5px;
+            color: #bdc3c7;
+            line-height: 1.4;
+        }
+
+        code {
+            background: rgba(52, 152, 219, 0.2);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+        }
+
+        /* Нижня панель */
+        .footer {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 20px;
+        }
+
+        /* Блок кричущої помилки/безпеки */
+        .warning-box {
+            border: 1px solid #e74c3c;
+            border-left: 5px solid #e74c3c;
+            background: rgba(231, 76, 60, 0.08);
+            padding: 15px;
+            font-size: 13px;
+            color: #f1c40f;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+
+        .warning-box strong { 
+            color: #e74c3c; 
+            display: block; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Порада Майстра Тесли */
+        .master-tip {
+            background: rgba(52, 152, 219, 0.15);
+            border: 1px solid #3498db;
+            color: #ecf0f1;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            line-height: 1.4;
+        }
+
+        .master-tip i { 
+            font-size: 24px; 
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="base.html" class="btn-back">← На базу</a>
+        <span class="protocol-title">ПРОТОКОЛ 003 | МЕТОДИЧНИЙ КУРС</span>
+    </div>
+
+    <div class="slide-container">
+        <div class="header">
+            <div class="brand-logo-area">
+                <i class="fa-solid fa-drone"></i>
+                <span class="brand-name">Майстер Тесла</span>
+            </div>
+            <div class="poster-title">Методичка №3: Схема підключення</div>
+        </div>
+
+        <div class="stack-banner">
+            <i class="fa-solid fa-circle-exclamation" style="color: #3498db; font-size: 20px;"></i>
+            <span><b>ПРАВИЛО UART:</b> При підключенні периферії контакт <b>TX</b> (Transmitter) завжди підключається до <b>RX</b> (Receiver), а <b>RX</b> — до <b>TX</b>!</span>
+        </div>
+
+        <div class="main-grid">
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="tile-content">
+                    <h3>Загальне Живлення (GND та BAT)</h3>
+                    <p><code>GND</code> — це мінус (Земля), спільний для всіх плат. <code>BAT / VCC</code> — напруга безпосередньо від акумулятора.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-microchip"></i></div>
+                <div class="tile-content">
+                    <h3>Зв'язок FC та ESC</h3>
+                    <p>З'єднуються шлейфом або пайкою. Передають живлення на FC та сигнали керування моторами <code>M1, M2, M3, M4</code>.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-signal"></i></div>
+                <div class="tile-content">
+                    <h3>Приймач керування (ELRS / Crossfire)</h3>
+                    <p>Живлення: <code>5V</code> та <code>GND</code>. Сигнал: <code>TX</code> приймача до <code>RX</code> польотника; <code>RX</code> приймача до <code>TX</code> польотника.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-camera"></i></div>
+                <div class="tile-content">
+                    <h3>FPV Камера</h3>
+                    <p>Живлення зазвичай <code>5V</code> або <code>9V</code> та <code>GND</code>. Сигнал відео йде на пін <code>CAM</code> або <code>VIN</code> на польотному контролері.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+                <div class="tile-content">
+                    <h3>Відеопередавач (VTX)</h3>
+                    <p>Живлення <code>9V</code> або <code>BAT</code>. Відеосигнал з піна <code>VTX</code> або <code>VOUT</code>. Керування налаштуваннями через пін <code>SmartAudio / IRC Tramp</code> (TX порт).</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="tile-content">
+                    <h3>Модуль GPS</h3>
+                    <p>Потребує 4 дроти: <code>5V</code>, <code>GND</code>, <code>TX</code> (до RX) та <code>RX</code> (до TX). Для роботи компаса додаються <code>SCL</code> та <code>SDA</code>.</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-industry"></i></div>
+                <div class="tile-content">
+                    <h3>Підключення моторів</h3>
+                    <p>Три дроти від мотора паяються до трьох контактних майданчиків на ESC. Порядок пайки неважливий (напрямок обертання змінюється в програмі).</p>
+                </div>
+            </div>
+            <div class="tile">
+                <div class="tile-icon"><i class="fa-solid fa-volume-high"></i></div>
+                <div class="tile-content">
+                    <h3>Beeper (Пищалка) та LED</h3>
+                    <p>Підключаються до пінів <code>BZ+ / BZ-</code> для пошуку дрона. Світлодіоди (LED) паяються до піна <code>LED</code> та потребують <code>5V</code> живлення.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="warning-box">
+                <strong>⚠️ УВАГА З ЖИВЛЕННЯМ:</strong><br>
+                Ніколи не подавайте напругу VCC (BAT) на компоненти, які розраховані суворо на 5V (наприклад, приймач Rx)! Це призведе до миттєвого згоряння. Завжди перевіряйте розпіновку вашого FC.
+            </div>
+            <div class="master-tip">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <span>"Перед тим як подати живлення на зібраний дрон, ЗАВЖДИ використовуйте Smoke Stopper (запобіжник)! Це збереже ваш Стек, якщо ви випадково переплутали полярність при пайці." — Ваш Майстер Тесла.</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
