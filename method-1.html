@@ -8,12 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
+        <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('image_2.png'); /* Переконайтеся, що картинка фону лежить в тій же папці */
+            background-image: url('image_2.png'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -26,7 +26,7 @@
             flex-direction: column;
         }
 
-   /* Оновлений контейнер навігації для ідеального центрування кнопки */
+        /* Оновлений контейнер навігації для ідеального центрування кнопки */
         .header-nav {
             display: flex;
             justify-content: center; /* Центруємо кнопку по горизонталі */
@@ -37,7 +37,6 @@
             padding-bottom: 15px;
             position: relative; /* Дозволяє позиціонувати заголовок збоку */
         }
-
 
         .btn-back {
             text-decoration: none;
@@ -59,12 +58,15 @@
             box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
         }
 
+        /* Заголовок акуратно зміщено вбік, щоб він не заважав кнопці по центру */
         .protocol-title {
             font-size: 1.1em;
             color: #bdc3c7;
             letter-spacing: 1px;
             margin: 0;
             text-transform: uppercase;
+            position: absolute;
+            right: 0;
         }
 
         .slide-container {
@@ -239,32 +241,10 @@
             text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
         }
 
-        /* Кнопка виходу у стилі Вартових */
-        .btn-logout {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            text-decoration: none;
-            color: #e74c3c;
-            font-weight: bold;
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 8px 14px;
-            border: 1px solid rgba(231, 76, 60, 0.4);
-            border-radius: 4px;
-            background-color: rgba(0, 0, 0, 0.5);
-            transition: 0.3s all ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-logout:hover {
-            border-color: #e74c3c;
-            background-color: rgba(231, 76, 60, 0.1);
-            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+        /* Прибираємо збоку на малих екранах відносне позиціонування назви, щоб не злипалося */
+        @media (max-width: 768px) {
+            .header-nav { flex-direction: column; gap: 10px; }
+            .protocol-title { position: static; text-align: center; }
         }
 
     </style>
