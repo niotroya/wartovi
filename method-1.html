@@ -8,12 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <style>
+    <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('image_2.png'); 
+            background-image: url('image_2.png'); /* Переконайтеся, що картинка фону лежить в тій же папці */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -26,18 +26,19 @@
             flex-direction: column;
         }
 
-        /* Оновлений контейнер навігації для ідеального центрування кнопки */
+        /* Навігаційна панель — центрована логіка кнопок */
         .header-nav {
             display: flex;
-            justify-content: center; /* Центруємо кнопку по горизонталі */
+            justify-content: center; /* Центруємо кнопку "На базу" */
             align-items: center;
             width: 100%;
             margin-bottom: 25px;
             border-bottom: 1px solid #34495e;
             padding-bottom: 15px;
-            position: relative; /* Дозволяє позиціонувати заголовок збоку */
+            position: relative;
         }
 
+        /* Кнопка "На базу" по центру */
         .btn-back {
             text-decoration: none;
             color: #3498db;
@@ -58,7 +59,32 @@
             box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
         }
 
-        /* Заголовок акуратно зміщено вбік, щоб він не заважав кнопці по центру */
+        /* Кнопка "Вийти" зліва зверху */
+        .btn-logout {
+            position: absolute;
+            left: 0;
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(231, 76, 60, 0.8);
+            border: 1px solid #c0392b;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+
+        /* Назва протоколу справа */
         .protocol-title {
             font-size: 1.1em;
             color: #bdc3c7;
@@ -241,26 +267,23 @@
             text-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
         }
 
-        /* Прибираємо збоку на малих екранах відносне позиціонування назви, щоб не злипалося */
         @media (max-width: 768px) {
             .header-nav { flex-direction: column; gap: 10px; }
+            .btn-logout { position: static; width: 100%; text-align: center; }
             .protocol-title { position: static; text-align: center; }
         }
-
     </style>
 </head>
 <body>
 
     <div class="header-nav">
-        <a href="base.html" class="btn-back">← На базу
+        <button class="btn-logout" onclick="logoutProtokol()">
+            <i class="fa-solid fa-right-from-bracket"></i> Вийти
+        </button>
 
- 
+        <a href="base.html" class="btn-back">← На базу</a>
 
-</a>
-        <span class="protocol-title">ПРОТОКОЛ 001 | МЕТОДИЧНИЙ КУРС
-
-
-</span>
+        <span class="protocol-title">ПРОТОКОЛ 001 | МЕТОДИЧНИЙ КУРС</span>
     </div>
 
     <div class="slide-container">
@@ -325,7 +348,7 @@
                 <div class="tile-icon"><i class="fa-solid fa-flask"></i></div>
                 <div class="tile-content">
                     <h3>7. Гель-флюс для електроніки</h3>
-                    <p>Якісний безвідмивний флюс. Забезпечує ідеальне розтікання припою та блискучу краплю.</p>
+                    <p>Якими безвідмивний флюс. Забезпечує ідеальне розтікання припою та блискучу краплю.</p>
                 </div>
             </div>
             <div class="tile">
@@ -362,6 +385,7 @@
             </div>
         </div>
     </div>
+
     <script>
         function logoutProtokol() {
             // Замінюємо поточну адресу в історії на сторінку авторизації
