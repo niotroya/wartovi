@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Налаштування Failsafe Betaflight</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: #252526;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+            border: 1px solid #3e3e42;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .stage-box {
+            background-color: #2d2d30;
+            border-left: 6px solid;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .stage-1 { border-color: #f39c12; }
+        .stage-2 { border-color: #e74c3c; }
+        
+        .stage-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .stage-1 .stage-title { color: #f1c40f; }
+        .stage-2 .stage-title { color: #e74c3c; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background-color: #333;
+            color: #aaa;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+        tr:last-child td { border-bottom: none; }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .badge-auto { background-color: #34495e; color: white; }
+        .badge-set { background-color: #2980b9; color: white; }
+        .badge-hold { background-color: #7f8c8d; color: white; }
+        .badge-drop { background-color: #c0392b; color: white; border: 2px solid #e74c3c; font-size: 16px; padding: 8px 16px; }
+        
+        .highlight-row { background-color: rgba(41, 128, 185, 0.15); border-left: 3px solid #3498db; }
+        .highlight-text { color: #e67e22; font-weight: bold; }
+        
+        .arrow-down {
+            text-align: center;
+            font-size: 24px;
+            color: #555;
+            margin: -10px 0 15px;
+        }
+        
+        .guard-time-box {
+            text-align: center;
+            background-color: #34495e;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border: 1px dashed #7f8c8d;
+        }
+        
+        .warning-footer {
+            background-color: #f39c12;
+            color: #111;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .warning-footer span { font-size: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🚨 Betaflight Failsafe</h1>
+        <p>Налаштування керованого падіння (просідання) для дронів без GPS</p>
+    </div>
+
+    <div class="content">
+        <!-- СТАДІЯ 1 -->
+        <div class="stage-box stage-1">
+            <h2 class="stage-title">⏱️ STAGE 1 (Перша стадія) — Короткочасна втрата зв'язку</h2>
+            <p style="font-size: 14px; color: #bbb; margin-bottom: 15px;">Мета: Миттєво вирівняти борт по горизонту та почати контрольоване просідання замість падіння каменем або некерованого польоту вгору.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Канал (Channel)</th>
+                        <th>Режим (Fallback)</th>
+                        <th>Значення</th>
+                        <th>Дія борту</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Roll</strong> (Крен)</td>
+                        <td><span class="badge badge-auto">Auto</span></td>
+                        <td>1500</td>
+                        <td>Стік по центру</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pitch</strong> (Тангаж)</td>
+                        <td><span class="badge badge-auto">Auto</span></td>
+                        <td>1500</td>
+                        <td>Стік по центру</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Yaw</strong> (Поворот)</td>
+                        <td><span class="badge badge-auto">Auto</span></td>
+                        <td>1500</td>
+                        <td>Стік по центру</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td><strong>Throttle</strong> (Газ)</td>
+                        <td><span class="badge badge-set">Set</span></td>
+                        <td><span class="highlight-text">~ 1150</span></td>
+                        <td>⚠️ Даємо ~20% тяги (кероване просідання)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aux</strong> (Arming)</td>
+                        <td><span class="badge badge-hold">Hold</span></td>
+                        <td>Останнє</td>
+                        <td>Тримає мотори увімкненими</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td><strong>Aux</strong> (Angle Mode)</td>
+                        <td><span class="badge badge-set">Set</span></td>
+                        <td><span class="highlight-text">1700-2000</span></td>
+                        <td>⚠️ Примусово вмикає стабілізацію по горизонту</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="guard-time-box">
+                ⏳ <strong>Guard time for stage 2 activation: <span style="color: #f1c40f; font-size: 18px;">15</span></strong><br>
+                <span style="font-size: 13px; color: #ccc;">Це рівно 1.5 секунди. Саме стільки часу дрон буде вирівнюватись на 20% газу і плавно втрачати висоту.</span>
+            </div>
+        </div>
+
+        <div class="arrow-down">⬇️</div>
+
+        <!-- СТАДІЯ 2 -->
+        <div class="stage-box stage-2">
+            <h2 class="stage-title">💥 STAGE 2 (Друга стадія) — Зв'язок не відновився</h2>
+            <p style="font-size: 14px; color: #bbb; margin-bottom: 15px;">Мета: Безпечно знеструмити борт після 1.5 сек спроб вирівнювання, щоб він не відлетів за вітром і не спалив електроніку на землі.</p>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <span class="badge badge-drop">🔘 DROP (Дізарм)</span>
+            </div>
+            
+            <ul style="color: #aaa; font-size: 14px;">
+                <li>❌ <strong>Land:</strong> ЗАБОРОНЕНО. Дрон може втекти за вітром або спалити ESC (регулятори) на землі.</li>
+                <li>❌ <strong>GPS Rescue:</strong> Не працює, оскільки ми розглядаємо ситуацію без модуля GPS або під жорстким РЕБ.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="warning-footer">
+        <span>⚠️</span> ЗОЛОТЕ ПРАВИЛО:<br>
+        <span style="font-weight: normal; font-size: 14px;">Значення газу (Throttle ~1150) потрібно обов'язково перевірити на полігоні з <strong>НАВЧАЛЬНОЮ ВАГОЮ</strong>. Борт повинен саме просідати, а не летіти вгору чи висіти в повітрі!</span>
+    </div>
+</div>
+
+</body>
+</html>
