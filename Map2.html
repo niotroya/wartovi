@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Реставрація карти: Афанасіївка (Леонова) 1875</title>
+<style>
+  body {
+    margin: 0;
+    padding: 15px;
+    background: #1a1d20;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h2 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #4caf50;
+    text-align: center;
+  }
+  .controls {
+    background: #2a2e33;
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  }
+  .control-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  input[type=range] {
+    width: 60%;
+    accent-color: #4caf50;
+  }
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  button {
+    flex: 1;
+    padding: 8px;
+    background: #3a4047;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  button.active {
+    background: #4caf50;
+    border-color: #4caf50;
+    font-weight: bold;
+  }
+  .map-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    border: 2px solid #444;
+  }
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+  }
+  .legend {
+    margin-top: 12px;
+    background: #2a2e33;
+    padding: 12px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<h2>Реконструкція: с. Афанасіївка (1875 + Супутник)</h2>
+
+<div class="controls">
+  <div class="control-row">
+    <span>Прозорість карти 1875 р.:</span>
+    <input type="range" id="opacitySlider" min="0" max="100" value="75">
+  </div>
+  <div class="btn-group">
+    <button id="btnAlign" class="active" onclick="toggleAlign(true)">Точна прив'язка (по рельєфу)</button>
+    <button id="btnRaw" onclick="toggleAlign(false)">Зі зсувом (як на сайті)</button>
+  </div>
+</div>
+
+<div class="map-container">
+  <!-- ШАР 1: СУПУТНИКОВА ПІДКЛАДКА (Синтезований рельєф 48.25576, 35.42079) -->
+  <svg id="satLayer" viewBox="0 0 500 500">
+    <!-- Базовий фон лугів/балки -->
+    <rect width="500" height="500" fill="#3b5e36"/>
+    
+    <!-- Сільгоспполя справа вгорі (бурі та зелені паї) -->
+    <polygon points="260,0 500,0 500,115 265,125" fill="#546842"/>
+    <polygon points="265,125 500,115 500,185 270,195" fill="#685246"/>
+    
+    <!-- Велике темно-зелене поле справа внизу (де були вітряки) -->
+    <polygon points="270,195 500,185 500,450 200,460 220,380 285,350 355,340 350,295 275,280" fill="#284e2a"/>
+    
+    <!-- Світлі смуги паїв внизу -->
+    <polygon points="150,460 500,450 500,500 120,500" fill="#466d3d"/>
+
+    <!-- Русло балки Осокорівка (ліва зелена зона з деревами) -->
+    <path d="M 180,0 Q 170,150 150,260 T 80,480 L 180,500 Q 220,380 245,280 T 255,0 Z" fill="#2d4c27"/>
+    
+    <!-- Балка Ігнатова (східне відгалуження) -->
+    <path d="M 245,240 Q 350,275 500,320 L 500,270 Q 360,240 250,200 Z" fill="#35582e"/>
+
+    <!-- Напівкруглий зелений мис (Епіцентр панського двору) -->
+    <path d="M 270,285 Q 365,280 355,345 Q 310,360 265,335 Z" fill="#486e3f" stroke="#5c8351" stroke-width="2"/>
+
+    <!-- Руде розмите пятно вгорі біля дороги -->
+    <ellipse cx="225" cy="65" rx="16" ry="38" fill="#8d6e53" opacity="0.8"/>
+
+    <!-- Світлі плями на західній цілині (місця старих хат Зона А) -->
+    <circle cx="145" cy="240" r="14" fill="#6b7c59" opacity="0.7"/>
+    <circle cx="115" cy="265" r="18" fill="#6b7c59" opacity="0.7"/>
+    <circle cx="135" cy="295" r="15" fill="#6b7c59" opacity="0.7"/>
+
+    <!-- Густа зелень дерев у яру (Зона Б) -->
+    <path d="M 160,280 Q 210,270 250,310 Q 230,380 150,420 Q 120,350 160,280 Z" fill="#1e3b18"/>
+
+    <!-- Польова ґрунтова дорога (з характерним зигзагом на переправі) -->
+    <path d="M 255,0 L 252,180 L 260,280 Q 290,325 285,340 Q 245,355 240,410 L 210,500" fill="none" stroke="#7d8468" stroke-width="4"/>
+
+    <!-- Червоний хрестик центру (48.25576, 35.42079) -->
+    <line x1="250" y1="230" x2="250" y2="290" stroke="#e53935" stroke-width="1.5"/>
+    <line x1="220" y1="260" x2="280" y2="260" stroke="#e53935" stroke-width="1.5"/>
+  </svg>
+
+  <!-- ШАР 2: СТАРА КАРТА ШУБЕРТА 1875 РОКУ (Реконструкція векторних позначок) -->
+  <svg id="oldMapLayer" viewBox="0 0 500 500" style="opacity: 0.75;">
+    <!-- Напівпрозора підкладка під старі лінії -->
+    <g stroke="#000" fill="none">
+      <!-- Штрихування схилів балки Осокорівки та Ігнатової -->
+      <path d="M 230,0 Q 220,140 215,240 L 110,480" stroke="#111" stroke-width="8" stroke-dasharray="3,5" opacity="0.6"/>
+      <path d="M 265,0 Q 255,140 255,235 L 220,420" stroke="#111" stroke-width="8" stroke-dasharray="3,5" opacity="0.6"/>
+      <path d="M 255,235 Q 360,270 490,310" stroke="#111" stroke-width="10" stroke-dasharray="3,5" opacity="0.6"/>
+      <path d="M 255,210 Q 340,170 430,110" stroke="#111" stroke-width="9" stroke-dasharray="3,5" opacity="0.5"/>
+
+      <!-- Старі дороги 1875 року -->
+      <path d="M 90,0 Q 35,200 100,450" stroke="#000" stroke-width="3"/>
+      <path d="M 250,255 Q 370,320 440,490" stroke="#000" stroke-width="2.5"/>
+      <path d="M 100,430 Q 200,360 250,255" stroke="#000" stroke-width="2"/>
+    </g>
+
+    <!-- ОБ'ЄКТИ ПОСЕЛЕННЯ АФАНАСІЇВКА (ЛЕОНОВА) -->
+    <!-- 1. Гребля / переправа в центрі -->
+    <rect x="235" y="242" width="24" height="8" transform="rotate(25 247 246)" fill="#000" stroke="#fff" stroke-width="1"/>
+
+    <!-- 2. ЗОНА А: Західні садиби (квадратики з крапками на цілині) -->
+    <g transform="translate(-10, -5)">
+      <rect x="175" y="210" width="24" height="24" transform="rotate(-35 187 222)" fill="#fff" stroke="#000" stroke-width="4"/>
+      <circle cx="187" cy="222" r="3" fill="#000"/>
+      
+      <rect x="148" y="238" width="20" height="20" transform="rotate(-35 158 248)" fill="#fff" stroke="#000" stroke-width="4"/>
+      <circle cx="158" cy="248" r="3" fill="#000"/>
+      <circle cx="158" cy="218" r="4" fill="#000"/>
+    </g>
+
+    <!-- 3. ЗОНА Б: Нижній хутір у яру -->
+    <g>
+      <polygon points="195,295 235,265 250,295 205,330" fill="#111" opacity="0.85"/>
+      <rect x="172" y="315" width="16" height="16" transform="rotate(-35 180 323)" fill="#fff" stroke="#000" stroke-width="3.5"/>
+      <rect x="160" y="335" width="14" height="10" transform="rotate(-35 167 340)" fill="#000"/>
+    </g>
+
+    <!-- 4. ЗОНА В: Подвійні чорні смуги з двома кружечками (Панський двір / млини на мисі) -->
+    <g transform="translate(268, 285) rotate(24)">
+      <!-- Дві товсті чорні лінії вулиці/греблі -->
+      <rect x="0" y="0" width="75" height="9" fill="#000" stroke="#ffeb3b" stroke-width="1"/>
+      <rect x="0" y="14" width="68" height="9" fill="#000" stroke="#ffeb3b" stroke-width="1"/>
+      <!-- Два кружечки з крапками зверху -->
+      <circle cx="42" cy="-9" r="7" fill="#fff" stroke="#000" stroke-width="3"/>
+      <circle cx="42" cy="-9" r="2" fill="#000"/>
+      <circle cx="58" cy="-9" r="7" fill="#fff" stroke="#000" stroke-width="3"/>
+      <circle cx="58" cy="-9" r="2" fill="#000"/>
+    </g>
+
+    <!-- 5. ЗОНА Г: Два вітряки (під чорними смугами) -->
+    <g stroke="#000" stroke-width="3">
+      <!-- Вітряк 1 -->
+      <line x1="275" y1="348" x2="275" y2="368"/>
+      <line x1="267" y1="352" x2="283" y2="362"/>
+      <line x1="283" y1="352" x2="267" y2="362"/>
+      <!-- Вітряк 2 -->
+      <line x1="302" y1="335" x2="302" y2="355"/>
+      <line x1="294" y1="339" x2="310" y2="349"/>
+      <line x1="310" y1="339" x2="294" y2="349"/>
+    </g>
+
+    <!-- 6. ЗОНА Д: Шестикутна зірочка (колодязь/орієнтир у полі) -->
+    <g transform="translate(345, 395)">
+      <circle cx="0" cy="0" r="8" fill="#fff" stroke="#000" stroke-width="3.5" stroke-dasharray="4,2"/>
+      <circle cx="0" cy="0" r="2" fill="#000"/>
+    </g>
+
+    <!-- Написи зі старої карти -->
+    <text x="65" y="255" transform="rotate(-55 65 255)" font-family="serif" font-size="28" font-weight="bold" fill="#000" stroke="#fff" stroke-width="0.8">Б. Оскоровка</text>
+    <text x="395" y="245" font-family="serif" font-size="28" font-weight="bold" fill="#000" stroke="#fff" stroke-width="0.8">Б. Игнатова</text>
+    <text x="370" y="300" font-family="serif" font-size="26" font-weight="bold" fill="#000" stroke="#fff" stroke-width="0.8">Афонасьевка</text>
+
+    <!-- Підписи зон для орієнтування -->
+    <g font-family="sans-serif" font-size="11" font-weight="bold" fill="#ffeb3b">
+      <rect x="275" y="252" width="115" height="18" rx="4" fill="rgba(0,0,0,0.75)"/>
+      <text x="280" y="265">Епіцентр (Зона В)</text>
+
+      <rect x="75" y="175" width="95" height="18" rx="4" fill="rgba(0,0,0,0.75)"/>
+      <text x="80" y="188">Садиби (Зона А)</text>
+
+      <rect x="235" y="372" width="95" height="18" rx="4" fill="rgba(0,0,0,0.75)"/>
+      <text x="240" y="385">Вітряки (Зона Г)</text>
+    </g>
+  </svg>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="dot" style="background:#ffeb3b; border:2px solid #000;"></span> <b>Подвійні смуги з кружечками (Зона В):</b> лягають точно на зелений напівкруглий мис праворуч від вигину ґрунтовки.</div>
+  <div class="legend-item"><span class="dot" style="background:#fff; border:2px solid #000;"></span> <b>Квадратики з крапками (Зона А):</b> лягають на світлі плями цілини на лівому березі балки.</div>
+  <div class="legend-item"><span class="dot" style="background:#284e2a; border:1px solid #aaa;"></span> <b>Вітряки та зірочка (Зони Г, Д):</b> виходять на темно-зелене орне поле південніше мису.</div>
+</div>
+
+<script>
+  const slider = document.getElementById('opacitySlider');
+  const oldMap = document.getElementById('oldMapLayer');
+  const btnAlign = document.getElementById('btnAlign');
+  const btnRaw = document.getElementById('btnRaw');
+
+  slider.addEventListener('input', (e) => {
+    oldMap.style.opacity = e.target.value / 100;
+  });
+
+  function toggleAlign(isAligned) {
+    if (isAligned) {
+      oldMap.style.transform = 'translate(0px, 0px)';
+      btnAlign.classList.add('active');
+      btnRaw.classList.remove('active');
+    } else {
+      // Імітація зсуву старої прив'язки як на скриншоті
+      oldMap.style.transform = 'translate(-22px, -18px)';
+      btnRaw.classList.add('active');
+      btnAlign.classList.remove('active');
+    }
+  }
+</script>
+
+</body>
+</html>
