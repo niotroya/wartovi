@@ -202,7 +202,7 @@ text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
         <!-- Екран 2: Тестування -->
         <div id="test-screen" class="screen">
             <div class="progress-bar"><div class="progress" id="progress"></div></div>
-            <div class="question-header"><span>Питання <span id="current-q-num">1</span> з 20</span><span>Тема: Будова дрона</span></div>
+            <div class="question-header"><span>Питання <span id="current-q-num">1</span> з 25</span><span>Тема: Будова дрона</span></div>
             <div class="question-text" id="question-text">Завантаження питання...</div>
             <div class="options" id="options-container"></div>
             <button id="next-btn" class="btn" disabled>Наступне питання</button>
@@ -277,6 +277,12 @@ text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
         { q: "За що відповідає OSD (On-Screen Display)?", o: ["За запис відео на флешку", "За накладання телеметричних даних (напруга, струм) поверх відеосигналу", "За перемикання каналів відео", "За стабілізацію камери", "Не знаю"], a: 1 },
         { q: "Який протокол керування є найсучаснішим, далекобійним та відкритим (Open Source)?", o: ["FrSky", "Crossfire", "ExpressLRS (ELRS)", "FlySky", "Не знаю"], a: 2 },
         { q: "На якому порту польотного контролера налаштовується зв'язок із периферією (приймачем, VTX)?", o: ["USB", "UART", "I2C", "SPI", "Не знаю"], a: 1 }
+,
+        { q: "Який протокол цифрового відеозв'язку розроблено спеціально для FPV з мінімальною затримкою?", o: ["DJI O3 / Walksnail Avatar", "Bluetooth 5.0", "Wi-Fi 2.4GHz", "Аналоговий 5.8GHz", "Не знаю"], a: 0 },
+        { q: "Чи існує технічна можливість тренуватися літати на симуляторах за допомогою пульта керування та мобільного телефону/планшета Android?", o: ["Ні, це працює тільки на комп'ютері", "Так", "Ні, симуляторів на телефон не існує", "Так, але тільки на пристроях Apple (iOS)", "Не знаю"], a: 1 },
+        { q: "Для чого використовується функція 'Air Mode' у Betaflight?", o: ["Для автоматичної посадки", "Для підтримання стабілізації (утримання заданого кута) навіть при нульовому газі", "Для збільшення максимальної швидкості", "Для вмикання GPS-навігації", "Не знаю"], a: 1 },
+        { q: "Який датчик в FC відповідає за визначення кутової швидкості обертання дрона по осях?", o: ["Акселерометр", "Барометр", "Гіроскоп", "Магнітометр (Компас)", "Не знаю"], a: 2 },
+        { q: "Що станеться, якщо пропелери встановити не за схемою налаштування моторів (наприклад, переплутати CW і CCW)?", o: ["Дрон буде літати повільніше", "При спробі зльоту дрон миттєво перекинеться", "Дрон буде дрейфувати за вітром", "Не буде працювати OSD", "Не знаю"], a: 1 }
     ];
 
     let cadetData = {};
@@ -299,13 +305,19 @@ text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         cadetData = {
-            lastName: document.getElementById('lastName').value,
-            firstName: document.getElementById('firstName').value,
-            patronymic: document.getElementById('patronymic').value,
-            callsign: document.getElementById('callsign').value,
-            unit: document.getElementById('unit').value,
-            phone: document.getElementById('phone').value
+            lastName: document.getElementById('lastName').value.trim(),
+            firstName: document.getElementById('firstName').value.trim(),
+            patronymic: document.getElementById('patronymic').value.trim(),
+            callsign: document.getElementById('callsign').value.trim(),
+            unit: document.getElementById('unit').value.trim(),
+            phone: document.getElementById('phone').value.trim()
         };
+        
+        // Встановлюємо безпечний заголовок одразу при старті тесту (для Chrome / Windows)
+        let safeName = cadetData.lastName + "_" + cadetData.firstName + "_" + cadetData.patronymic + "_Будова_Дрона";
+        safeName = safeName.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9]/g, '_').replace(/_+/g, '_');
+        document.title = safeName;
+        
         screenAuth.classList.remove('active');
         screenTest.classList.add('active');
         loadQuestion();
@@ -368,13 +380,13 @@ text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
         const circle = document.getElementById('score-circle');
         const verdictEl = document.getElementById('verdict');
         
-        circle.textContent = `${score}/20`;
+        circle.textContent = `${score}/25`;
         
-        if (score >= 18) {
+        if (score >= 23) {
             verdictEl.textContent = "ВІДМІННО. ДОПУСК ОТРИМАНО";
             verdictEl.className = "verdict excellent";
             circle.style.borderColor = "var(--success)";
-        } else if (score >= 14) {
+        } else if (score >= 18) {
             verdictEl.textContent = "ДОБРЕ. ДОПУСК ОТРИМАНО";
             verdictEl.className = "verdict good";
             circle.style.borderColor = "var(--warning)";
