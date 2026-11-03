@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Атестація: Будова FPV дрона</title>
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --warning: #fbbf24;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background-color: rgba(15, 23, 42, 0.5);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 10px 15px; background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; outline: none; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: var(--accent); }
+
+        .btn { display: block; width: 100%; padding: 12px; background-color: var(--accent); color: var(--bg-main); border: none; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; margin-top: 20px; text-transform: uppercase; text-align: center; }
+        .btn:hover { background-color: var(--accent-hover); }
+        .btn:disabled { background-color: var(--border); cursor: not-allowed; color: var(--text-muted); }
+        .btn-success { background-color: var(--success); color: white; margin-bottom: 10px; }
+        .btn-success:hover { background-color: #059669; }
+
+        .progress-bar { height: 4px; background-color: var(--border); margin-bottom: 20px; border-radius: 2px; overflow: hidden; }
+        .progress { height: 100%; background-color: var(--accent); width: 0%; transition: width 0.3s ease; }
+        
+        .question-header { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; }
+        .question-text { font-size: 1.2rem; margin-bottom: 25px; line-height: 1.4; }
+        
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option { background-color: var(--bg-main); border: 1px solid var(--border); padding: 15px; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; }
+        .option:hover { border-color: var(--accent); }
+        .option.selected { border-color: var(--accent); background-color: rgba(56, 189, 248, 0.1); }
+        .option input { display: none; }
+
+        .result-card { background-color: var(--bg-main); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
+        .result-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border); }
+        .result-row:last-child { border-bottom: none; }
+        .result-label { color: var(--text-muted); }
+
+        .score-display { text-align: center; margin: 30px 0 20px; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; font-weight: bold; margin: 0 auto 15px; border: 4px solid var(--accent); color: var(--text-main); }
+        
+        .verdict { font-size: 1.2rem; font-weight: bold; text-transform: uppercase; }
+        .verdict.excellent { color: var(--success); }
+        .verdict.good { color: var(--warning); }
+        .verdict.bad { color: var(--danger); }
+
+        .answers-review { margin-top: 20px; margin-bottom: 20px; text-align: left; max-height: 280px; overflow-y: auto; padding-right: 10px; }
+        .answers-review h3 { color: var(--text-muted); margin-bottom: 15px; font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 10px; text-transform: uppercase; }
+        .review-item { background-color: rgba(15, 23, 42, 0.4); border-left: 4px solid var(--border); padding: 12px 15px; margin-bottom: 10px; border-radius: 4px; font-size: 0.9rem; }
+        .review-item.correct { border-left-color: var(--success); }
+        .review-item.incorrect { border-left-color: var(--danger); }
+
+        .q-title { margin-bottom: 8px; color: var(--text-main); font-weight: 500; }
+        .ans { margin-bottom: 4px; }
+        .user-correct { color: var(--success); }
+        .user-wrong { color: var(--danger); }
+        .true-correct { color: var(--accent); font-weight: bold; }
+
+        .answers-review::-webkit-scrollbar { width: 6px; }
+        .answers-review::-webkit-scrollbar-track { background: var(--bg-main); border-radius: 3px; }
+        .answers-review::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+        /* Елементи, видимі тільки при друку */
+        .print-only { display: none; }
+
+        /* НАЛАШТУВАННЯ ДЛЯ ДРУКУ (ГЕНЕРАЦІЇ PDF) */
+        @media print {
+            body { background-color: #ffffff; color: #000000; padding: 0; align-items: flex-start; }
+            .container { box-shadow: none; border: none; max-width: 100%; width: 100%; }
+            
+            /* Приховуємо інтерфейсні елементи */
+            .header, .no-print, .btn { display: none !important; }
+            
+            /* Робимо білий фон та чорний текст для всіх елементів */
+            .result-card, .review-item, .answers-review { background-color: #ffffff !important; color: #000000 !important; }
+            .result-card { border: 1px solid #000; }
+            .review-item { border-left: 3px solid #000; border-bottom: 1px solid #eee; margin-bottom: 15px; page-break-inside: avoid; }
+            .q-title, .result-label, .answers-review h3 { color: #000000 !important; }
+            
+            /* Розблоковуємо прокрутку для друку всіх питань */
+            .answers-review { max-height: none; overflow: visible; border: none; }
+            
+            /* Зберігаємо кольори для оцінки, якщо принтер кольоровий, інакше буде чорно-біле */
+            .score-circle { border-color: #000 !important; color: #000 !important; }
+            .user-wrong { color: #d93025 !important; }
+            .user-correct, .true-correct { color: #188038 !important; }
+            
+            /* Показуємо елементи для звіту */
+            .print-only { display: block; }
+            
+            .print-header { text-align: center; margin-bottom: 30px; font-family: 'Times New Roman', Times, serif; }
+            .print-header h2 { margin-bottom: 5px; font-size: 1.4rem; text-transform: uppercase; }
+            .print-header p { margin: 5px 0; font-size: 1rem; }
+            
+            .print-footer { margin-top: 50px; display: flex; justify-content: space-around; font-family: 'Times New Roman', Times, serif; page-break-inside: avoid; }
+            .print-signature { text-align: center; }
+            .print-signature span { display: block; margin-top: 5px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>FPV Академія: Атестація</h1>
+    </div>
+    
+    <div class="content">
+        <!-- Екран 1: Акредитація -->
+        <div id="accreditation-screen" class="screen active">
+            <h2 style="margin-bottom: 20px; color: var(--text-main); text-align: center;">Реєстрація курсанта</h2>
+            <form id="auth-form">
+                <div class="form-group"><label>Прізвище *</label><input type="text" id="lastName" required></div>
+                <div class="form-group"><label>Ім'я *</label><input type="text" id="firstName" required></div>
+                <div class="form-group"><label>По-батькові *</label><input type="text" id="patronymic" required></div>
+                <div class="form-group"><label>Позивний *</label><input type="text" id="callsign" required></div>
+                <div class="form-group"><label>Частина де служить *</label><input type="text" id="unit" required></div>
+                <div class="form-group"><label>Телефон *</label><input type="tel" id="phone" required></div>
+                <button type="submit" class="btn">Почати тестування</button>
+            </form>
+        </div>
+
+        <!-- Екран 2: Тестування -->
+        <div id="test-screen" class="screen">
+            <div class="progress-bar"><div class="progress" id="progress"></div></div>
+            <div class="question-header"><span>Питання <span id="current-q-num">1</span> з 20</span><span>Тема: Будова дрона</span></div>
+            <div class="question-text" id="question-text">Завантаження питання...</div>
+            <div class="options" id="options-container"></div>
+            <button id="next-btn" class="btn" disabled>Наступне питання</button>
+        </div>
+
+        <!-- Екран 3: Результати -->
+        <div id="result-screen" class="screen">
+            
+            <!-- Шапка тільки для друку -->
+            <div class="print-only print-header">
+                <h2>ВИТЯГ З ПРОТОКОЛУ АТЕСТАЦІЇ № _________</h2>
+                <p>Курс спеціальної підготовки: <strong>«Будова та експлуатація FPV дрона»</strong></p>
+                <p id="print-date"></p>
+            </div>
+
+            <h2 class="no-print" style="margin-bottom: 20px; color: var(--accent); text-align: center;">Результати атестації</h2>
+            
+            <div class="result-card">
+                <div class="result-row"><span class="result-label">ПІБ:</span> <strong id="res-name"></strong></div>
+                <div class="result-row"><span class="result-label">Позивний:</span> <strong id="res-callsign"></strong></div>
+                <div class="result-row"><span class="result-label">Частина:</span> <strong id="res-unit"></strong></div>
+                <div class="result-row"><span class="result-label">Телефон:</span> <strong id="res-phone"></strong></div>
+            </div>
+
+            <div class="score-display">
+                <div class="score-circle" id="score-circle">0/20</div>
+                <div class="verdict" id="verdict">Завантаження...</div>
+            </div>
+
+            <!-- Блок деталізації відповідей -->
+            <div class="answers-review" id="answers-review">
+                <!-- Генерується через JS -->
+            </div>
+
+            <!-- Блок підписів тільки для друку -->
+            <div class="print-only print-footer">
+                <div class="print-signature">
+                    _________________________<br>
+                    <span>(Підпис інструктора)</span>
+                </div>
+                <div class="print-signature">
+                    _________________________<br>
+                    <span>(Підпис курсанта)</span>
+                </div>
+            </div>
+
+            <button onclick="window.print()" class="btn btn-success no-print">📄 Зберегти Звіт (PDF) / Друк</button>
+            <button onclick="location.reload()" class="btn no-print">Завершити та здати тест</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Що таке FC у будові FPV дрона?", o: ["Flight Controller (Польотний контролер)", "Frame Carbon (Карбонова рама)", "Frequency Converter (Конвертер частот)", "Fast Charge (Модуль швидкої зарядки)", "Не знаю"], a: 0 },
+        { q: "За що відповідає ESC (Регулятор обертів)?", o: ["За передачу відеосигналу на окуляри", "За перетворення цифрового сигналу від FC на трифазний струм для двигунів", "За прийом команд керування від пульта", "За живлення камери дрона", "Не знаю"], a: 1 },
+        { q: "Який модуль відповідає за передачу відео з дрона на окуляри пілота?", o: ["RX", "FC", "VTX", "ESC", "Не знаю"], a: 2 },
+        { q: "Що означають цифри 2807 у маркуванні безщіткового двигуна?", o: ["28мм - довжина проводів, 7мм - діаметр валу", "28мм - діаметр статора, 07мм - висота статора", "2800KV потужності і 7 ампер споживання", "28мм - діаметр купола, 7 - кількість магнітів", "Не знаю"], a: 1 },
+        { q: "Що таке 'Стек' (Stack) в FPV дроні?", o: ["Набір запасних пропелерів", "Польотний контролер (FC) та регулятор обертів (ESC), з'єднані та встановлені один над одним", "Антена відеопередавача разом з пігтейлом", "Акумулятор великої ємності", "Не знаю"], a: 1 },
+        { q: "Як правильно розшифровується VTX?", o: ["Video Transmitter", "Visual Terminal X", "Voltage Transfer X-over", "Velocity Tracking Extension", "Не знаю"], a: 0 },
+        { q: "Що означає маркування CW на пропелері?", o: ["Carbon Weight (карбоновий)", "Counter-Clockwise (проти годинникової)", "Clockwise (за годинниковою стрілкою)", "Center Wing (центральний)", "Не знаю"], a: 2 },
+        { q: "В якій конфігурації пропелери обертаються назовні від передньої і задньої частини рами?", o: ["Props-In (Стандартна)", "Props-Out (Реверсійна)", "Push-Pull", "Tractor", "Не знаю"], a: 1 },
+        { q: "Що таке 'пігтейл' у радіосистемі дрона?", o: ["Хвіст дрона для аеродинаміки", "Спеціальний перехідник-кабель від VTX до антени", "Провід живлення від батареї", "Антена приймача керування", "Не знаю"], a: 1 },
+        { q: "Навіщо до силових проводів ESC припаюють конденсатор?", o: ["Для збільшення ємності акумулятора", "Для згладжування стрибків напруги (шумів) та захисту електроніки", "Для роботи світлодіодів", "Для збільшення дальності польоту", "Не знаю"], a: 1 },
+        { q: "Який основний матеріал використовується для виготовлення рами FPV дрона?", o: ["Алюміній", "Текстоліт", "Карбонове волокно (вуглепластик)", "Полікарбонат", "Не знаю"], a: 2 },
+        { q: "Що таке RX?", o: ["Регулятор напруги", "Відеопередавач", "Радіоприймач сигналів керування", "Антена відеозв'язку", "Не знаю"], a: 2 },
+        { q: "У якому форматі найчастіше вказується характеристика камер аналогового FPV (чіткість)?", o: ["Мегапікселі (MP)", "Телевізійні лінії (TVL)", "Роздільна здатність 4K", "Бітрейт (Mbps)", "Не знаю"], a: 1 },
+        { q: "Що таке KV у характеристиках двигуна?", o: ["Кіловольти (робоча напруга)", "Кількість обертів за хвилину на 1 Вольт напруги без навантаження", "Кіловати (потужність)", "Коефіцієнт вібрації", "Не знаю"], a: 1 },
+        { q: "Яка антена найчастіше використовується для відеопередавача (VTX) на дроні?", o: ["Спрямована антена (Patch)", "Лінійна антена (диполь)", "Антена з круговою поляризацією (Omni / Pagoda)", "Т-подібна антена", "Не знаю"], a: 2 },
+        { q: "З якого матеріалу найчастіше друкують кріплення для камер та антен на 3D принтері?", o: ["Пляшки", "Кришечки", "TPU (гнучкий поліуретан)", "REVO", "Не знаю"], a: 2 },
+        { q: "Що означають цифри в маркуванні акумулятора, наприклад, 6S?", o: ["6 секунд максимальної тяги", "6 послідовно з'єднаних банок (Cells)", "6 ампер струму віддачі", "6 паралельно з'єднаних банок", "Не знаю"], a: 1 },
+        { q: "За що відповідає OSD (On-Screen Display)?", o: ["За запис відео на флешку", "За накладання телеметричних даних (напруга, струм) поверх відеосигналу", "За перемикання каналів відео", "За стабілізацію камери", "Не знаю"], a: 1 },
+        { q: "Який протокол керування є найсучаснішим, далекобійним та відкритим (Open Source)?", o: ["FrSky", "Crossfire", "ExpressLRS (ELRS)", "FlySky", "Не знаю"], a: 2 },
+        { q: "На якому порту польотного контролера налаштовується зв'язок із периферією (приймачем, VTX)?", o: ["USB", "UART", "I2C", "SPI", "Не знаю"], a: 1 }
+    ];
+
+    let cadetData = {};
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+    let userAnswers = []; 
+
+    const form = document.getElementById('auth-form');
+    const screenAuth = document.getElementById('accreditation-screen');
+    const screenTest = document.getElementById('test-screen');
+    const screenResult = document.getElementById('result-screen');
+    const qText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const nextBtn = document.getElementById('next-btn');
+    const progress = document.getElementById('progress');
+    const currentQNum = document.getElementById('current-q-num');
+    const reviewContainer = document.getElementById('answers-review');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        cadetData = {
+            lastName: document.getElementById('lastName').value.trim(),
+            firstName: document.getElementById('firstName').value.trim(),
+            patronymic: document.getElementById('patronymic').value.trim(),
+            callsign: document.getElementById('callsign').value.trim(),
+            unit: document.getElementById('unit').value.trim(),
+            phone: document.getElementById('phone').value.trim()
+        };
+        
+        // Встановлюємо безпечний заголовок одразу при старті тесту (для Chrome / Windows)
+        let safeName = cadetData.lastName + "_" + cadetData.firstName + "_" + cadetData.patronymic + "_Будова_Дрона";
+        safeName = safeName.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9]/g, '_').replace(/_+/g, '_');
+        document.title = safeName;
+        
+        screenAuth.classList.remove('active');
+        screenTest.classList.add('active');
+        loadQuestion();
+    });
+
+    function loadQuestion() {
+        selectedAnswer = null;
+        nextBtn.disabled = true;
+        const q = questions[currentQuestionIndex];
+        qText.textContent = q.q;
+        currentQNum.textContent = currentQuestionIndex + 1;
+        progress.style.width = `${((currentQuestionIndex) / questions.length) * 100}%`;
+        
+        optionsContainer.innerHTML = '';
+        q.o.forEach((opt, index) => {
+            const optDiv = document.createElement('div');
+            optDiv.className = 'option';
+            optDiv.innerHTML = `<input type="radio" name="option" value="${index}"><span>${opt}</span>`;
+            
+            optDiv.addEventListener('click', () => {
+                document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+                optDiv.classList.add('selected');
+                selectedAnswer = index;
+                nextBtn.disabled = false;
+            });
+            optionsContainer.appendChild(optDiv);
+        });
+    }
+
+    nextBtn.addEventListener('click', () => {
+        userAnswers.push(selectedAnswer);
+        if (selectedAnswer === questions[currentQuestionIndex].a) score++;
+        currentQuestionIndex++;
+        
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    });
+
+    function showResults() {
+        screenTest.classList.remove('active');
+        screenResult.classList.add('active');
+        
+        // Встановлюємо дату для друкованого звіту
+        const today = new Date();
+        const dateStr = today.toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const timeStr = today.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('print-date').innerHTML = `Дата проведення: <strong>${dateStr}</strong> р. Час: <strong>${timeStr}</strong>`;
+
+        document.getElementById('res-name').textContent = `${cadetData.lastName} ${cadetData.firstName} ${cadetData.patronymic}`;
+        document.getElementById('res-callsign').textContent = cadetData.callsign;
+        document.getElementById('res-unit').textContent = cadetData.unit;
+        document.getElementById('res-phone').textContent = cadetData.phone;
+        
+        const circle = document.getElementById('score-circle');
+        const verdictEl = document.getElementById('verdict');
+        
+        circle.textContent = `${score}/20`;
+        
+        if (score >= 18) {
+            verdictEl.textContent = "ВІДМІННО. ДОПУСК ОТРИМАНО";
+            verdictEl.className = "verdict excellent";
+            circle.style.borderColor = "var(--success)";
+        } else if (score >= 14) {
+            verdictEl.textContent = "ДОБРЕ. ДОПУСК ОТРИМАНО";
+            verdictEl.className = "verdict good";
+            circle.style.borderColor = "var(--warning)";
+        } else {
+            verdictEl.textContent = "НЕЗАДОВІЛЬНО. НА ПЕРЕЗДАЧУ";
+            verdictEl.className = "verdict bad";
+            circle.style.borderColor = "var(--danger)";
+        }
+
+        reviewContainer.innerHTML = '<h3>Аналіз помилок (Без підказок):</h3>';
+        questions.forEach((q, index) => {
+            const userAnswerIndex = userAnswers[index];
+            const isCorrect = userAnswerIndex === q.a;
+            
+            const qBlock = document.createElement('div');
+            qBlock.className = `review-item ${isCorrect ? 'correct' : 'incorrect'}`;
+            
+            let html = `<p class="q-title"><strong>Питання ${index + 1}:</strong> ${q.q}</p>`;
+            if (isCorrect) {
+                html += `<p class="ans user-correct">✅ <strong>Відповідь вірна</strong></p>`;
+            } else {
+                const userStr = (userAnswerIndex !== null && userAnswerIndex !== undefined) ? q.o[userAnswerIndex] : "Немає відповіді / Пропущено";
+                if (userAnswerIndex === 4) {
+                    html += `<p class="ans user-wrong">⚠️ <strong>Ви обрали:</strong> Не знаю</p>`;
+                    html += `<p class="ans true-correct">👉 <em>Обов'язково опрацюйте цю тему в матеріалах курсу.</em></p>`;
+                } else {
+                    html += `<p class="ans user-wrong">❌ <strong>Ваша відповідь:</strong> ${userStr}</p>`;
+                    html += `<p class="ans true-correct">👉 <em>Знайдіть правильну відповідь самостійно в матеріалах курсу.</em></p>`;
+                }
+            }
+            qBlock.innerHTML = html;
+            reviewContainer.appendChild(qBlock);
+        });
+    }
+</script>
+
+</body>
+</html>
